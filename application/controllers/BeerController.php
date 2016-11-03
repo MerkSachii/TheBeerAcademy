@@ -18,7 +18,7 @@ class BeerController extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->helper('form');
@@ -29,32 +29,69 @@ class BeerController extends CI_Controller {
 	public function index()
 	{
 		$this->home();
-        
+
 	}
-    
+
     public function home() {
         $this->load->view('landing.php');
     }
-    
+
     public function signin() {
         $this->load->model('ourModel');
         $userInfo = [
-            $username => $this->input->post('user'),
-            $password => $this->input->post('password')    
+            'username' => $this->input->post('user'),
+            'password' => $this->input->post('pass')
         ];
-        
+				$name = $userInfo['username'];
+
         $isSuccessful = $this->ourModel->verifyCredentials($userInfo);
-        var_dump($isSuccessful);
-        if(isSuccessful) {
-            $this->item();
+				$userSession = array(
+				'username' =>  $this->input->post('user'),
+				'name' => $userInfo['username'],
+				'isLogged' =>  TRUE,
+				);
+
+        if($isSuccessful) {
+					$this->session->set_userdata($userSession);
+            redirect(site_url('item'), 'refresh');
         }
         else {
-            $this->index();
+            redirect(site_url('home'), 'refresh');
         }
-        
+
     }
-    
+
     public function item() {
-        $this->load->view('item.php');
+				$data['name'] = $this->session->username;
+        $this->load->view('item.php', $data);
     }
+
+		public function signup() {
+
+			$this->load->view('signup.php');
+		}
+
+		public function addUsers() {
+			$this->load->model('ourModel');
+			$formData = array(
+					'firstName' => $this->input->post('firstname'),
+					'lastName' => $this->input->post('lastname'),
+					'email' => $this->input->post('email'),
+					'password' => $this->input->post('password'),
+					'Address' => $this->input->post('address'),
+					'mobile' => $this->input->post('mobile'),
+					'birthDate' => $this->input->post('birthdate'),
+
+			);
+			$userSession = array(
+			'username' =>  $this->input->post('firstname'),
+			'name' => $this->input->post('firstname'),
+			'isLogged' =>  TRUE,
+			);
+			$this->session->set_userdata($userSession);
+			$name = $formData['firstName'];
+			$this->ourModel->addUser($formData);
+
+			redirect(site_url('item'), 'refresh');
+		}
 }

@@ -9,11 +9,8 @@ class ourModel extends CI_Model {
     }
 
     public function verifyCredentials($data) {
-        
-        $lastLogin = array(
-            'lastLogin' => date("Y-m-d H:m:s"),
-        );
-        $condition = "email =" . "'" . $data['email'] . "' AND " . "password =" . "'" . $data['password'] . "'";
+
+        $condition = "email =" . "'" . $data['username'] . "' AND " . "password =" . "'" . $data['password'] . "'";
         $this->db->select("*");
         $this->db->from('users');
         $this->db->where($condition);
@@ -21,16 +18,19 @@ class ourModel extends CI_Model {
         $query = $this->db->get();
 
         if ($query->num_rows() == 1) {
-            $this->db->where($condition);
-            $this->db->update('users', $lastLogin);
             return true;
         }
         else {
             return false;
         }
-        
+
     }
-   
+
+    public function addUser($formdata) {
+      $query = $this->db->insert('users',$formdata);
+      return $query;
+    }
+
 
 }
 

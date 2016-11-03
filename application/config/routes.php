@@ -57,4 +57,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['home'] = 'BeerController/index';
 $route['login'] = 'BeerController/signin';
 $route['item'] = 'BeerController/item';
-
+$route['signup'] = 'BeerController/signup';
+$route['addUsers'] = 'BeerController/addUsers';
