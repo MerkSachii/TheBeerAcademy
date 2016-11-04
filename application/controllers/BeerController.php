@@ -73,16 +73,7 @@ class BeerController extends CI_Controller {
 
 		public function addUsers() {
 			$this->load->model('ourModel');
-			$formData = array(
-					'firstName' => $this->input->post('firstname'),
-					'lastName' => $this->input->post('lastname'),
-					'email' => $this->input->post('email'),
-					'password' => $this->input->post('password'),
-					'Address' => $this->input->post('address'),
-					'mobile' => $this->input->post('mobile'),
-					'birthDate' => $this->input->post('birthdate'),
 
-			);
 			$userSession = array(
 			'username' =>  $this->input->post('firstname'),
 			'name' => $this->input->post('firstname'),
@@ -90,7 +81,7 @@ class BeerController extends CI_Controller {
 			);
 			$this->session->set_userdata($userSession);
 			$name = $formData['firstName'];
-			$this->ourModel->addUser($formData);
+			
 
 			redirect(site_url('item'), 'refresh');
 		}

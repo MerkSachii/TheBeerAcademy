@@ -27,8 +27,7 @@ class ourModel extends CI_Model {
     }
 
     public function addUser($formdata) {
-      $query = $this->db->insert('users',$formdata);
-      return $query;
+      
     }
 
 
